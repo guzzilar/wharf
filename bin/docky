@@ -1,8 +1,11 @@
 #!/bin/bash
 platforms=("woocommerce" "magento")
 
+build_folder=""
 build_platform=""
 build_version="latest"
+
+package_location="https://github.com/guzzilar"
 
 ##
 # Show the usage of Docky.
@@ -35,9 +38,22 @@ hasPlatform() {
 # Build it!
 #
 build() {
-    mkdir -p deploy/$build_platform
+    build_folder="deploy/$build_platform"
+    package_location="$package_location/docker-$build_platform/archive/master.zip"
 
-    echo $build_version
+    mkdir -p $build_folder
+    mkdir $build_folder/tmp
+
+    [[ ! -f $build_folder/tmp/docker-$build_platform.zip ]] && {
+        wget -O $build_folder/tmp/docker-$build_platform.zip https://github.com/guzzilar/docker-woocommerce/archive/master.zip
+    }
+
+    unzip $build_folder/tmp/docker-$build_platform.zip -d $build_folder/tmp/
+    mv $build_folder/tmp/docker-$build_platform-master/* $build_folder
+    rm -R $build_folder/tmp/docker-$build_platform-master
+
+    cd $build_folder
+    bin/build --target=$build_version
 }
 
 # $1 cannot be empty.
