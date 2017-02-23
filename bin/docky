@@ -1,0 +1,77 @@
+#!/bin/bash
+platforms=("woocommerce" "magento")
+
+build_platform=""
+build_version="latest"
+
+##
+# Show the usage of Docky.
+##
+doc() {
+    echo -e ''
+    echo -e 'usage: docky build [--platform=<name>] [--target=<version>]'
+    echo -e ''
+    echo -e '--platform\tSpecify the target platform that you want to build'
+    echo -e '--target\tSpecify the target version that you want to build'
+    echo -e ''
+}
+
+##
+# Check if Docky supports a build target platform.
+#
+hasPlatform() {
+    local platform
+
+    for platform in ${platforms[@]}; do
+        [[ $platform == $1 ]] && {
+            return 0
+        }
+    done
+
+    return 1
+}
+
+##
+# Build it!
+#
+build() {
+    mkdir -p deploy/$build_platform
+
+    echo $build_version
+}
+
+# $1 cannot be empty.
+# And the first argument must be "build".
+[[ -z $1 || $1 != "build" ]] && {
+    doc
+    exit
+}
+
+# Remove "build" from arguments.
+shift
+
+# Reading arguments.
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --version=*)
+            build_version="${1#*=}"
+            shift
+            ;;
+
+        *)
+            [[ -z $build_platform ]] && {
+                if ! hasPlatform $1; then
+                    echo "error: platform \"$1\" did not match any platform(s) Docky supported."
+                    exit
+                fi
+
+                build_platform=$1
+            }
+            shift
+            ;;
+    esac
+done
+
+[[ ! -z $build_platform ]] && {
+    build
+}
