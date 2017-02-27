@@ -1,5 +1,5 @@
 #!/bin/bash
-platforms=("woocommerce" "magento")
+platforms=("woocommerce" "magento", "eccube")
 
 build_folder=""
 build_platform=""
@@ -45,7 +45,7 @@ build() {
     mkdir $build_folder/tmp
 
     [[ ! -f $build_folder/tmp/docker-$build_platform.zip ]] && {
-        wget -O $build_folder/tmp/docker-$build_platform.zip https://github.com/guzzilar/docker-woocommerce/archive/master.zip
+        wget -O $build_folder/tmp/docker-$build_platform.zip https://github.com/guzzilar/docker-$build_platform/archive/master.zip
     }
 
     unzip $build_folder/tmp/docker-$build_platform.zip -d $build_folder/tmp/
