@@ -1,11 +1,12 @@
 #!/bin/bash
-platforms=("woocommerce" "magento", "eccube")
+PLATFORMS=("woocommerce" "magento" "eccube")
+PACKAGE_LOCATION="https://github.com/guzzilar"
 
 build_folder=""
 build_platform=""
+build_source=""
 build_version="latest"
 
-package_location="https://github.com/guzzilar"
 
 ##
 # Show the usage of Docky.
@@ -25,7 +26,7 @@ doc() {
 hasPlatform() {
     local platform
 
-    for platform in ${platforms[@]}; do
+    for platform in ${PLATFORMS[@]}; do
         [[ $platform == $1 ]] && {
             return 0
         }
@@ -39,13 +40,13 @@ hasPlatform() {
 #
 build() {
     build_folder="deploy/$build_platform"
-    package_location="$package_location/docker-$build_platform/archive/master.zip"
+    local package_location="$PACKAGE_LOCATION/docker-$build_platform/archive/master.zip"
 
     mkdir -p $build_folder
     mkdir $build_folder/tmp
 
     [[ ! -f $build_folder/tmp/docker-$build_platform.zip ]] && {
-        wget -O $build_folder/tmp/docker-$build_platform.zip https://github.com/guzzilar/docker-$build_platform/archive/master.zip
+        wget -O $build_folder/tmp/docker-$build_platform.zip $package_location
     }
 
     unzip $build_folder/tmp/docker-$build_platform.zip -d $build_folder/tmp/
@@ -53,7 +54,7 @@ build() {
     rm -R $build_folder/tmp/docker-$build_platform-master
 
     cd $build_folder
-    bin/build --target=$build_version
+    bin/start $build_version --build --source=$build_source
 }
 
 # $1 cannot be empty.
@@ -74,14 +75,26 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
 
+        --source=*)
+            build_source="${1#*=}"
+            shift
+            ;;
+
         *)
             [[ -z $build_platform ]] && {
-                if ! hasPlatform $1; then
+                OIFS=$IFS
+                IFS=":"
+                target=($1)
+
+                if ! hasPlatform ${target[0]}; then
                     echo "error: platform \"$1\" did not match any platform(s) Docky supported."
                     exit
                 fi
 
-                build_platform=$1
+                build_platform=${target[0]}
+                build_version=$([[ ! -z ${target[1]} ]] && echo ${target[1]} || echo "latest")
+
+                IFS=$OIFS
             }
             shift
             ;;
