@@ -53,8 +53,7 @@ build() {
     mv $build_folder/tmp/docker-$build_platform-master/* $build_folder
     rm -R $build_folder/tmp/docker-$build_platform-master
 
-    cd $build_folder
-    bin/start $build_version --build --source=$build_source
+    $build_folder/bin/start $build_version --build --source=$build_source
 }
 
 # $1 cannot be empty.
