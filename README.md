@@ -24,6 +24,8 @@ Here is the list of platforms that you can build with Docky:
 
 - latest
 
+    _example_
+
     ```bash
     bin/docky build woocommerce
     ```
@@ -45,6 +47,8 @@ Url access: `http://127.0.0.1`
 
 - 2.13.3
 
+    _example_
+
     ```bash
     bin/docky build eccube:2.13.3
     ```
@@ -64,7 +68,10 @@ Url access: `http://127.0.0.1`
 
 #### Versions supported
 
+- 1.9.3.2
 - 1.9.3.1
+
+    _example_
 
     ```bash
     bin/docky build magento:1.9.3.1 --source=directory/of/file/magento1.9.3.1.zip
@@ -73,6 +80,7 @@ Url access: `http://127.0.0.1`
     > Because Docky cannot access to Magento v1.x resources without log in to Magento website.  
     >
     > So, you have to manually log in and download a zip file directly from https://magento.com/tech-resources/download. And then, specify a path of a zip file you download (unfortunately, Docky cannot do automatically download task for you).
+
 
 **Database Informations**
 
