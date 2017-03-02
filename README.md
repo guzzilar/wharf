@@ -71,22 +71,22 @@ Url access: `http://127.0.0.1`
 - 1.9.3.2
 - 1.9.3.1
 
-    _example_
+_example_
 
-    ```bash
-    bin/docky build magento:1.9.3.1 --source=directory/of/file/magento1.9.3.1.zip
-    ```
+```bash
+bin/docky build magento:1.9.3.1 --source=directory/of/file/magento1.9.3.1.zip
+```
 
-    > Because Docky cannot access to Magento v1.x resources without log in to Magento website.  
-    >
-    > So, you have to manually log in and download a zip file directly from https://magento.com/tech-resources/download. And then, specify a path of a zip file you download (unfortunately, Docky cannot do automatically download task for you).
+> Because Docky cannot access to Magento v1.x resources without log in to Magento website.  
+> 
+> So, you have to manually log in and download a zip file directly from https://magento.com/tech-resources/download. And then, specify a path of a zip file you download (unfortunately, Docky cannot do automatically download task for you).
 
 
 **Database Informations**
 
-DB Host: db  
-DB Name: www  
-DB User: root  
-DB Password: root
+DB Host: `db`  
+DB Name: `www`  
+DB User: `root`  
+DB Password: `root`
 
 Url access: `http://127.0.0.1`
