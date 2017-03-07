@@ -7,7 +7,6 @@ build_platform=""
 build_source=""
 build_version="latest"
 
-
 ##
 # Show the usage of Docky.
 ##
@@ -42,17 +41,29 @@ build() {
     build_folder="deploy/$build_platform"
     local package_location="$PACKAGE_LOCATION/docker-$build_platform/archive/master.zip"
 
-    mkdir -p $build_folder
-    mkdir $build_folder/tmp
+    echo "*****"
+    echo "Docky: Preparing a docker..."
 
-    [[ ! -f $build_folder/tmp/docker-$build_platform.zip ]] && {
+    if [ ! -d $build_folder ]; then
+        echo "Docky: Build directory: $build_folder"
+        mkdir -p $build_folder
+    fi
+
+    [[ ! -d $build_folder/src && ! -f $build_folder/tmp/docker-$build_platform.zip ]] && {
+        # Prepare and download.
+        mkdir $build_folder/tmp
+        echo "Docky: Downloading a Docker package from $package_location"
         wget -O $build_folder/tmp/docker-$build_platform.zip $package_location
+
+        unzip $build_folder/tmp/docker-$build_platform.zip -d $build_folder/tmp/
+        mv $build_folder/tmp/docker-$build_platform-master/* $build_folder
+
+        # Remove.
+        rm -R $build_folder/tmp/docker-$build_platform-master
+        rm -R $build_folder/tmp
     }
 
-    unzip $build_folder/tmp/docker-$build_platform.zip -d $build_folder/tmp/
-    mv $build_folder/tmp/docker-$build_platform-master/* $build_folder
-    rm -R $build_folder/tmp/docker-$build_platform-master
-
+    echo "Docky: Build Docker!"
     $build_folder/bin/start $build_version --build --source=$build_source
 }
 
