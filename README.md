@@ -1,15 +1,17 @@
 # Docky
 
-Docky is a dockerizer application to help developer run up various dev servers.
+Docky is a dockerizer application built specifically for e-commerce development.
+He helps developer to run up e-commerce dev environments related.
+i.e. Magento, WooCommerce, EC-Cube
 
 ## Usage
 
-Just clone/download the repository to your machine.
+Just `clone` or `download` the repository to your machine.
 
-Then, to run Docky, type the following commands to your terminal program:
+Then, to run Docky, type the following command to your terminal program:
 
 ```bash
-bin/docky build [platform]:[version(optional)]
+bin/docky up [platform]:[version(optional)]
 ```
 
 > note, default of `version` is `latest`.
@@ -22,12 +24,12 @@ Here is the list of platforms that you can build with Docky:
 
 #### Versions supported
 
-- latest
+- latest _`auto install`_
 
     _example_
 
     ```bash
-    bin/docky build woocommerce
+    bin/docky up woocommerce
     ```
 
 **Database Informations**
@@ -50,7 +52,7 @@ Url access: `http://127.0.0.1`
     _example_
 
     ```bash
-    bin/docky build eccube:2.13.3
+    bin/docky up eccube:2.13.3
     ```
 
 **Database Informations**
@@ -68,13 +70,15 @@ Url access: `http://127.0.0.1`
 
 #### Versions supported
 
+- 2.1.6
+- 2.1.5
 - 1.9.3.2
 - 1.9.3.1
 
 _example_
 
 ```bash
-bin/docky build magento:1.9.3.1 --source=directory/of/file/magento1.9.3.1.zip
+bin/docky up magento:1.9.3.1 --source=directory/of/file/magento1.9.3.1.zip
 ```
 
 > Because Docky cannot access to Magento v1.x resources without log in to Magento website.  

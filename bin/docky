@@ -2,6 +2,7 @@
 PLATFORMS=("woocommerce" "magento" "eccube")
 PACKAGE_LOCATION="https://github.com/guzzilar"
 
+execute_command=""
 build_folder=""
 build_platform=""
 build_source=""
@@ -35,46 +36,71 @@ hasPlatform() {
 }
 
 ##
-# Build it!
+# Preparation
 #
-build() {
+initialize() {
     build_folder="deploy/$build_platform"
     local package_location="$PACKAGE_LOCATION/docker-$build_platform/archive/master.zip"
 
-    echo "*****"
-    echo "Docky: Preparing a docker..."
+    echo "***************************************"
+    echo "Docky: Preparing docker..."
 
     if [ ! -d $build_folder ]; then
-        echo "Docky: Build directory: $build_folder"
+        echo "Docky: Build directory: $build_folder "
         mkdir -p $build_folder
     fi
 
     [[ ! -d $build_folder/src && ! -f $build_folder/tmp/docker-$build_platform.zip ]] && {
-        # Prepare and download.
+        # 1. Download.
         mkdir $build_folder/tmp
-        echo "Docky: Downloading a Docker package from $package_location"
+        echo "Docky: Downloading a Docker package from $package_location."
+        echo "Docky: ================================================================================"
         wget -O $build_folder/tmp/docker-$build_platform.zip $package_location
 
+        # 2. Unzip
+        echo "Docky: ================================================================================"
         unzip $build_folder/tmp/docker-$build_platform.zip -d $build_folder/tmp/
+        echo "Docky: Moving file to $build_folder."
         mv $build_folder/tmp/docker-$build_platform-master/* $build_folder
 
-        # Remove.
-        rm -R $build_folder/tmp/docker-$build_platform-master
+        # 3. Remove.
+        echo "Docky: ================================================================================"
+        echo "Docky: Removing $build_folder/tmp directory."
         rm -R $build_folder/tmp
     }
+}
 
-    echo "Docky: Build Docker!"
+##
+# Boot up a container!
+#
+up() {
+    initialize
+
+    echo "Docky: Booting up the docker!"
+    echo "Docky: ================================================================================"
     $build_folder/bin/start $build_version --build --source=$build_source
+}
+
+##
+# Build it!
+#
+build() {
+    initialize
+
+    echo "Docky: Building the docker!"
+    echo "Docky: ================================================================================"
+    $build_folder/bin/start $build_version --re-build --source=$build_source
 }
 
 # $1 cannot be empty.
 # And the first argument must be "build".
-[[ -z $1 || $1 != "build" ]] && {
+execute_command=$1
+[[ -z $execute_command || $execute_command != "up" && $execute_command != "build" ]] && {
     doc
     exit
 }
 
-# Remove "build" from arguments.
+# Remove "execute command" from arguments.
 shift
 
 # Reading arguments.
@@ -112,5 +138,5 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ ! -z $build_platform ]] && {
-    build
+    $execute_command
 }
