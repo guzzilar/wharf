@@ -1,24 +1,27 @@
 # Docky
 
-Docky is a dockerizer application built specifically for e-commerce development.
-He helps developer to run up e-commerce dev environments related.
-i.e. Magento, WooCommerce, EC-Cube
+Docky is a dockerizer application built specifically for e-commerce development environment.  
+He would help developer to build up a proper environment that let you just focus and work on only your thing without caring about server-match-requirement.
+
+Basically, Docky works well with **WooCommerce**, **Magento**, **Magento 2**, **OpenCart**.
 
 ## Usage
 
-Just `clone` or `download` the repository to your machine.
-
-Then, to run Docky, type the following command to your terminal program:
+_**Clone**_ or [_**download**_](https://github.com/guzzilar/docky/archive/master.zip) the repository to your local machine.  
+Then, in order to run Docky, execute the following command right away in your terminal program:
 
 ```bash
 bin/docky up [platform]:[version(optional)]
 ```
 
-> note, default of `version` is `latest`.
+> Note: Default of the `version` parameter is `latest`.
 
 ## Supported platforms
 
 Here is the list of platforms that you can build with Docky:
+- [EC-Cube](https://github.com/guzzilar/docky#ec-cube)
+- [Magento](https://github.com/guzzilar/docky#magento)
+- [WooCommerce](https://github.com/guzzilar/docky#woocommerce)
 
 ### WooCommerce
 
@@ -85,7 +88,6 @@ bin/docky up magento:1.9.3.1 --source=directory/of/file/magento1.9.3.1.zip
 > Because Docky cannot access to Magento v1.x resources without log in to Magento website.  
 > 
 > So, you have to manually log in and download a zip file directly from https://magento.com/tech-resources/download. And then, specify a path of a zip file you download (unfortunately, Docky cannot do automatically download task for you).
-
 
 **Database Informations**
 
