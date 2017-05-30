@@ -2,6 +2,7 @@
 PLATFORMS=("woocommerce" "magento" "eccube")
 PACKAGE_LOCATION="https://github.com/guzzilar"
 
+version_folder=".version"
 execute_command=""
 build_folder=""
 build_platform=""
@@ -39,6 +40,24 @@ hasPlatform() {
 # Preparation
 #
 initialize() {
+    echo "###################################################"
+    echo "Docky: Checking the container version.."
+    if [ ! -d $version_folder ]; then
+        mkdir -p $version_folder
+        echo " > Created a new folder, $version_folder."
+    fi
+
+    local container_version=$(curl -s https://api.github.com/repos/guzzilar/docker-woocommerce/git/refs/heads/master | jq '.object.sha' | sed -e 's/^"//' -e 's/"$//')
+
+    if [ ! -f "$version_folder/docker-$build_platform.$container_version" ]; then
+        rm $version_folder/docker-$build_platform.*
+        touch $version_folder/docker-$build_platform.$container_version
+        echo " > Found a new version of docker-$build_platform (commit: $container_version)"
+        echo " > Cached: $version_folder/docker-$build_platform.$container_version"
+    fi
+
+    ## TODO : Will continue later...
+
     build_folder="deploy/$build_platform"
     local package_location="$PACKAGE_LOCATION/docker-$build_platform/archive/master.zip"
 
