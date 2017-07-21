@@ -1,20 +1,25 @@
 # Docky
 
 Docky is a dockerizer application built specifically for e-commerce development environment.  
-He would help developer to build up a proper environment that let you just focus and work on only your thing without caring about server-match-requirement.
+He helps developer to build up a proper environment that let you just focus and work on only your thing without worrying about setting up server / application.
 
 Basically, Docky works well with **WooCommerce**, **Magento**, **Magento 2**, **OpenCart**.
 
 ## Usage
 
 _**Clone**_ or [_**download**_](https://github.com/guzzilar/docky/archive/master.zip) the repository to your local machine.  
-Then, in order to run Docky, execute the following command right away in your terminal program:
+Then, to run Docky, execute the following command right away in your terminal program:
 
 ```bash
 bin/docky up [platform]:[version(optional)]
 ```
 
 > Note: Default of the `version` parameter is `latest`.
+
+i.e.
+```bash
+bin/docky up woocommerce:latest
+```
 
 ## Supported platforms
 
@@ -23,49 +28,20 @@ Here is the list of platforms that you can build with Docky:
 - [Magento](https://github.com/guzzilar/docky#magento)
 - [WooCommerce](https://github.com/guzzilar/docky#woocommerce)
 
-### WooCommerce
-
-#### Versions supported
-
-- latest _`auto install`_
-
-    _example_
-
-    ```bash
-    bin/docky up woocommerce
-    ```
-
-**Database Informations**
-
-DB Host: `db`  
-DB Name: `www`  
-DB User: `root`  
-DB Password: `root`
-
-Url access: `http://127.0.0.1`
-
----
-
 ### EC-Cube
 
 #### Versions supported
 
-- 2.13.3
+- 2.13.3 (`bin/docky up eccube:2.13.3`)
 
-    _example_
+**Database**  
+DB Host: _`db`_  
+DB Name: _`www`_  
+DB User: _`postgres`_  
+DB Password: _`root`_
 
-    ```bash
-    bin/docky up eccube:2.13.3
-    ```
-
-**Database Informations**
-
-DB Host: db  
-DB Name: www  
-DB User: postgres  
-DB Password: root
-
-Url access: `http://127.0.0.1`
+**Access**  
+`http://127.0.0.1`
 
 ---
 
@@ -89,11 +65,28 @@ bin/docky up magento:1.9.3.1 --source=directory/of/file/magento1.9.3.1.zip
 > 
 > So, you have to manually log in and download a zip file directly from https://magento.com/tech-resources/download. And then, specify a path of a zip file you download (unfortunately, Docky cannot do automatically download task for you).
 
-**Database Informations**
+**Database**  
+DB Host: _`db`_  
+DB Name: _`www`_  
+DB User: _`root`_  
+DB Password: _`root`_
 
-DB Host: `db`  
-DB Name: `www`  
-DB User: `root`  
-DB Password: `root`
+**Access**  
+`http://127.0.0.1`
 
-Url access: `http://127.0.0.1`
+---
+
+### WooCommerce
+
+#### Versions supported
+
+- latest (`bin/docky up woocommerce`)
+
+**Database**  
+DB Host: _`db`_  
+DB Name: _`www`_  
+DB User: _`root`_  
+DB Password: _`root`_
+
+**Access**  
+`http://127.0.0.1`
