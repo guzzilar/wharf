@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKY_VERSION="0.1.0-dev"
+DOCKY_VERSION="0.2.0-dev"
 DOCKY_RELEASE_DATE="Jul 21, 2017"
 DOCKY_EXECUTABLE_COMMANDS=("doc" "up" "build" "version")
 SUPPORTED_PLATFORMS=("woocommerce" "magento" "eccube")
