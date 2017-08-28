@@ -103,7 +103,8 @@ fetchContainer () {
         echo " > Found a new version of docker-$build_platform (commit: $container_version)"
 
         rm -f $container_base_location/.versions/docker-$build_platform.*
-        rm -R $container_base_location/$build_platform
+        rm -R $container_location
+
         touch $container_base_location/.versions/docker-$build_platform.$container_version
 
         echo " > Cached \"$container_base_location/.versions/docker-$build_platform.$container_version\""
@@ -115,17 +116,41 @@ fetchContainer () {
     if [ ! -d $container_location ]; then
         mkdir -p $container_location
         echo " > Created a $container_location directory."
+
+        downloadContainer
     fi
+}
+
+###
+ # Download a container from https://github.com/guzzilar/*
+ ##
+downloadContainer () {
+    local package_location="$REPOSITORY_ACCOUNT/docker-$build_platform/archive/master.zip"
+    local tmp_location=$container_location/tmp
+
+    mkdir $tmp_location
+    echo "Docky: download a Docker container from $package_location."
+    echo " > Downloading"
+    wget -O $tmp_location/docker-$build_platform.zip $package_location
+
+    # 2. Unzip
+    echo " > unzip $tmp_location/docker-$build_platform.zip"
+    unzip $tmp_location/docker-$build_platform.zip -d $tmp_location/
+    echo " > moving file to $container_location."
+    mv $tmp_location/docker-$build_platform-master/* $container_location
+
+    # 3. Delete tmp.
+    echo " > remove temp files."
+    rm -R $tmp_location
 }
 
 ###
  # Preparation
  ##
 initialize () {
-    local package_location="$REPOSITORY_ACCOUNT/docker-$build_platform/archive/master.zip"
-    build_location="app/$([[ ! -z $app_name ]] && echo $app_name || echo $build_platform)"
-
     fetchContainer
+
+    build_location="app/$([[ ! -z $app_name ]] && echo $app_name || echo $build_platform)"
 
     echo ".."
     echo "."
@@ -137,21 +162,6 @@ initialize () {
     else
         echo " > Cannot create a new app, $build_location already exists."
     fi
-
-    [[ ! -d $container_location/src && ! -f $container_location/tmp/docker-$build_platform.zip ]] && {
-        # 1. Download.
-        mkdir $container_location/tmp
-        echo "Docky: downloading a Docker package from $package_location."
-        echo "Docky: ================================================================================"
-        wget -O $container_location/tmp/docker-$build_platform.zip $package_location
-
-        # 2. Unzip
-        echo "Docky: unzip $container_location/tmp/docker-$build_platform.zip"
-        echo "Docky: ================================================================================"
-        unzip $container_location/tmp/docker-$build_platform.zip -d $container_location/tmp/
-        echo "Docky: moving file to $container_location."
-        mv $container_location/tmp/docker-$build_platform-master/* $container_location
-    }
 }
 
 ##
