@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DOCKY_VERSION="0.2.0-dev"
-DOCKY_RELEASE_DATE="Jul 21, 2017"
+DOCKY_VERSION="0.2.1-dev"
+DOCKY_RELEASE_DATE="Aug 28, 2017"
 DOCKY_EXECUTABLE_COMMANDS=("doc" "up" "build" "version")
 SUPPORTED_PLATFORMS=("woocommerce" "magento" "eccube")
 REPOSITORY_ACCOUNT="https://github.com/guzzilar"
