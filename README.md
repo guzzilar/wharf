@@ -5,10 +5,11 @@ He helps developer to build up a proper environment that let you just focus and 
 
 ### Here is the list of e-commerce platforms that Docky can work with:
 
+- [Magento](https://github.com/guzzilar/docky#magento)
 - [WooCommerce](https://github.com/guzzilar/docky#woocommerce)
 
 **Future Plan**  
-Magento, EC-Cube, PrestaShop, OpenCart are coming!
+EC-Cube, PrestaShop, OpenCart are coming!
 
 ## Usage
 
@@ -16,7 +17,7 @@ _**Clone**_ or [_**download**_](https://github.com/guzzilar/docky/archive/master
 Then, to run Docky, execute the following command right away in your terminal program:
 
 ```bash
-bin/docky up [platform][:version(optional)] [app_name(optional)]
+bin/docky up [platform[:version(optional)]] [app_name(optional)]
 ```
 
 > Note: Default of the `version` parameter is `latest`.
