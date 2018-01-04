@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DOCKY_VERSION="0.2.1-dev"
-DOCKY_RELEASE_DATE="Aug 28, 2017"
-DOCKY_EXECUTABLE_COMMANDS=("doc" "up" "build" "version")
+DOCKY_VERSION="0.2.2-dev"
+DOCKY_RELEASE_DATE="Jan 4, 2018"
+DOCKY_EXECUTABLE_COMMANDS=("doc" "help" "up" "build" "version")
 SUPPORTED_PLATFORMS=("woocommerce" "magento" "eccube")
 REPOSITORY_ACCOUNT="https://github.com/guzzilar"
 VERSIONING_LOCATION=".version"
@@ -21,24 +21,36 @@ arg_position=0
 ###
  # Docky's document
  ##
+help () {
+    doc
+}
+
 doc () {
-    echo -e "Docky Document:"
-    echo -e "---------------"
-    echo -e "usage: docky <command> <name>[:<version>] [<app_name>]"
-    echo -e ""
-    echo -e "Available commands"
-    echo -e "\tdoc\tDisplay the Docky's document"
-    echo -e ""
-    echo -e "\tup\tBoot up a target container"
-    echo -e ""
-    echo -e "\tbuild\tRe-build a target container before boot up"
-    echo -e ""
-    echo -e "\tversion\tShow Docky's current version."
-    echo -e ""
-    echo -e ""
-    echo -e "Examples"
-    echo -e "\t1 - ./bin/docky up woocommerce:3.1.0"
-    echo -e "\t2 - ./bin/docky up woocommerce mywoocommerce"
+    echo -e "
+    Docky Document:
+    ---------------------
+    usage: docky <command> <name>[:<version>] [<app_name>]
+
+    Available commands
+    \tdoc, help\tDisplay the Docky's document
+
+    \tup\t\tBoot up a target container
+
+    \tbuild\t\tRe-build a target container before boot up
+
+    \tversion\t\tShow Docky's current version.
+
+
+    SUPPORTED PLATFORMS
+    ---------------------
+    eccube, magento, woocommerce
+
+
+    EXAMPLES
+    ---------------------
+    \t1) ./bin/docky up woocommerce:3.1.0
+    \t2) ./bin/docky up magento my-magento
+    "
 }
 
 ###
@@ -46,7 +58,7 @@ doc () {
  ##
 version () {
     echo -e ".."
-    echo -e "Docky v$DOCKY_VERSION (released at $DOCKY_RELEASE_DATE)"
+    echo -e "Docky v$DOCKY_VERSION (released on  $DOCKY_RELEASE_DATE)"
 }
 
 ###
@@ -54,7 +66,7 @@ version () {
  #
  # @param $1 string  name of a platform you want to check
  ##
-canExecute () {
+isExecutable () {
     local the_command
 
     for the_command in ${DOCKY_EXECUTABLE_COMMANDS[@]}; do
@@ -200,9 +212,9 @@ build() {
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 # ..
 the_command=$1
-if ! canExecute $the_command; then
+if ! isExecutable $the_command; then
     echo ".."
-    echo "Docky: error, cannot execute \"$the_command\"."
+    echo "Docky: command not found, cannot execute the command \"$the_command\"."
     echo ""
     doc
     exit
