@@ -29,7 +29,7 @@ doc () {
     echo -e "
     Docky Document:
     ---------------------
-    usage: docky <command> <name>[:<version>] [<app_name>]
+    usage: docky <command> <platform>[:<version>] [<app_name>]
 
     Available commands
     \tdoc, help\tDisplay the Docky's document
@@ -49,7 +49,8 @@ doc () {
     EXAMPLES
     ---------------------
     \t1) ./bin/docky up woocommerce:3.1.0
-    \t2) ./bin/docky up magento my-magento
+    \t2) ./bin/docky up woocommerce:3.1.0 mywc
+    \t3) ./bin/docky up magento my-magento
     "
 }
 
@@ -226,11 +227,6 @@ shift
 # Reading arguments.
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --version=*)
-            build_version="${1#*=}"
-            shift
-            ;;
-
         --source=*)
             build_source="${1#*=}"
             shift
