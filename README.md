@@ -37,6 +37,10 @@ Once finished, you will be able to edit or make any changes inside `app/my-wooco
 
 <img width="1403" alt="01" src="https://user-images.githubusercontent.com/2154669/28490968-eaed3b88-6f10-11e7-9fca-dbae7a5ca2f4.png">
 
+## Make it global
+
+`cp wadka /usr/local/bin/wadka`
+
 ## Container Details
 
 ### WooCommerce

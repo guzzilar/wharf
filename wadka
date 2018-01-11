@@ -5,6 +5,7 @@ WADKA_RELEASE_DATE="Jan 12, 2018"
 WADKA_EXECUTABLE_COMMANDS=("doc" "help" "up" "build" "version")
 WADKA_SUPPORTED_PLATFORMS=("woocommerce" "magento" "eccube")
 REPOSITORY_ACCOUNT="https://github.com/guzzilar"
+REPOSITORY_API="https://api.github.com/repos/guzzilar"
 VERSIONING_LOCATION=".version"
 
 app_name=""
@@ -147,7 +148,7 @@ isPlatformAvailable () {
  # Container version checking
  ##
 fetchContainer () {
-    local container_version=$(curl -s https://api.github.com/repos/guzzilar/docker-$build_platform/git/refs/heads/master | jq '.object.sha' | sed -e 's/^"//' -e 's/"$//')
+    local container_version=$(curl -s $REPOSITORY_API/docker-$build_platform/git/refs/heads/master | jq '.object.sha' | sed -e 's/^"//' -e 's/"$//')
     container_location=$container_base_location/$build_platform
 
     echo "Wadka: checking the container version.."
