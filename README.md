@@ -11,6 +11,10 @@ He helps developer to build up a proper environment that let you just focus and 
 **Future Plan**  
 EC-Cube, PrestaShop, OpenCart are coming!
 
+## Dependencies
+
+- [jq](https://stedolan.github.io/jq/) v1.5 or above.
+
 ## Usage
 
 _**Clone**_ or [_**download**_](https://github.com/guzzilar/wadka/archive/master.zip) the repository into your local machine.  
