@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DOCKY_VERSION="0.2.2-dev"
-DOCKY_RELEASE_DATE="Jan 4, 2018"
-DOCKY_EXECUTABLE_COMMANDS=("doc" "help" "up" "build" "version")
+WADKA_VERSION="0.2.2-dev"
+WADKA_RELEASE_DATE="Jan 4, 2018"
+WADKA_EXECUTABLE_COMMANDS=("doc" "help" "up" "build" "version")
 SUPPORTED_PLATFORMS=("woocommerce" "magento" "eccube")
 REPOSITORY_ACCOUNT="https://github.com/guzzilar"
 VERSIONING_LOCATION=".version"
@@ -19,7 +19,7 @@ the_command=""
 arg_position=0
 
 ###
- # Docky's document
+ # Wadka's document
  ##
 help () {
     doc
@@ -27,18 +27,18 @@ help () {
 
 doc () {
     echo -e "
-    Docky Document:
+    Wadka Document:
     ---------------------
-    usage: docky <command> <platform>[:<version>] [<app_name>]
+    usage: wadka <command> <platform>[:<version>] [<app_name>]
 
     Available commands
-    \tdoc, help\tDisplay the Docky's document
+    \tdoc, help\tDisplay the Wadka's document
 
     \tup\t\tBoot up a target container
 
     \tbuild\t\tRe-build a target container before boot up
 
-    \tversion\t\tShow Docky's current version.
+    \tversion\t\tShow Wadka's current version.
 
 
     SUPPORTED PLATFORMS
@@ -48,29 +48,29 @@ doc () {
 
     EXAMPLES
     ---------------------
-    \t1) ./bin/docky up woocommerce:3.1.0
-    \t2) ./bin/docky up woocommerce:3.1.0 mywc
-    \t3) ./bin/docky up magento my-magento
+    \t1) ./bin/wadka up woocommerce:3.1.0
+    \t2) ./bin/wadka up woocommerce:3.1.0 mywc
+    \t3) ./bin/wadka up magento my-magento
     "
 }
 
 ###
- # Docky's version
+ # Wadka's version
  ##
 version () {
     echo -e ".."
-    echo -e "Docky v$DOCKY_VERSION (released on  $DOCKY_RELEASE_DATE)"
+    echo -e "Wadka v$WADKA_VERSION (released on  $WADKA_RELEASE_DATE)"
 }
 
 ###
- # Check if Docky supports a build target platform.
+ # Check if Wadka supports a build target platform.
  #
  # @param $1 string  name of a platform you want to check
  ##
 isExecutable () {
     local the_command
 
-    for the_command in ${DOCKY_EXECUTABLE_COMMANDS[@]}; do
+    for the_command in ${WADKA_EXECUTABLE_COMMANDS[@]}; do
         [[ $the_command == $1 ]] && {
             return 0
         }
@@ -80,7 +80,7 @@ isExecutable () {
 }
 
 ###
- # Check if Docky supports a build target platform.
+ # Check if Wadka supports a build target platform.
  #
  # @param $1 string  name of a platform you want to check
  ##
@@ -103,7 +103,7 @@ fetchContainer () {
     local container_version=$(curl -s https://api.github.com/repos/guzzilar/docker-$build_platform/git/refs/heads/master | jq '.object.sha' | sed -e 's/^"//' -e 's/"$//')
     container_location=$container_base_location/$build_platform
 
-    echo "Docky: checking the container version.."
+    echo "Wadka: checking the container version.."
 
     # Check for container versioning directory.
     if [ ! -d $container_base_location/.versions ]; then
@@ -142,7 +142,7 @@ downloadContainer () {
     local tmp_location=$container_location/tmp
 
     mkdir $tmp_location
-    echo "Docky: download a Docker container from $package_location."
+    echo "Wadka: download a Docker container from $package_location."
     echo " > Downloading"
     wget -O $tmp_location/docker-$build_platform.zip $package_location
 
@@ -167,7 +167,7 @@ initialize () {
 
     echo ".."
     echo "."
-    echo "Docky: preparing docker..."
+    echo "Wadka: preparing docker..."
 
     if [ ! -d $build_location ]; then
         mkdir -p $build_location
@@ -182,12 +182,12 @@ initialize () {
 #
 up() {
     echo ".."
-    echo "Docky: running up \"$build_platform\" version \"$build_version\" container.."
+    echo "Wadka: running up \"$build_platform\" version \"$build_version\" container.."
 
     initialize
 
-    echo "Docky: Booting up the docker!"
-    echo "Docky: ================================================================================"
+    echo "Wadka: Booting up the docker!"
+    echo "Wadka: ================================================================================"
 
     $container_location/bin/docky-servant up $build_version $build_location
 }
@@ -197,12 +197,12 @@ up() {
 #
 build() {
     echo ".."
-    echo "Docky: running up \"$build_platform\" version \"$build_version\" container.."
+    echo "Wadka: running up \"$build_platform\" version \"$build_version\" container.."
 
     initialize
 
-    echo "Docky: Booting up the docker!"
-    echo "Docky: ================================================================================"
+    echo "Wadka: Booting up the docker!"
+    echo "Wadka: ================================================================================"
 
     $container_location/bin/docky-servant build $build_version $build_location
 }
@@ -215,7 +215,7 @@ build() {
 the_command=$1
 if ! isExecutable $the_command; then
     echo ".."
-    echo "Docky: command not found, cannot execute the command \"$the_command\"."
+    echo "Wadka: command not found, cannot execute the command \"$the_command\"."
     echo ""
     doc
     exit
@@ -240,7 +240,7 @@ while [[ $# -gt 0 ]]; do
 
                 if ! isSupportPlatform ${target[0]}; then
                     echo ".."
-                    echo "Docky: error, platform \"$1\" did not match with any platform(s) I supported."
+                    echo "Wadka: error, platform \"$1\" did not match with any platform(s) I supported."
                     exit
                 fi
 
