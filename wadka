@@ -86,13 +86,7 @@ version () {
  # @executable
  ##
 up() {
-    echo ".."
-    echo "Wadka: running up \"$build_platform\" version \"$build_version\" container.."
-
-    initialize
-
-    echo "Wadka: Booting up the docker!"
-    echo "Wadka: ================================================================================"
+    building
 
     $container_location/bin/docky-servant up $build_version $build_location
 }
@@ -103,13 +97,7 @@ up() {
  # @executable
  ##
 build() {
-    echo ".."
-    echo "Wadka: running up \"$build_platform\" version \"$build_version\" container.."
-
-    initialize
-
-    echo "Wadka: Booting up the docker!"
-    echo "Wadka: ================================================================================"
+    building
 
     $container_location/bin/docky-servant build $build_version $build_location
 }
@@ -234,6 +222,19 @@ initialize () {
     else
         echo " > Cannot create a new app, $build_location already exists."
     fi
+}
+
+###
+ # Create a container
+ ##
+building () {
+    echo ".."
+    echo "Wadka: running up \"$build_platform\" version \"$build_version\" container.."
+
+    initialize
+
+    echo "Wadka: Booting up the docker!"
+    echo "Wadka: ================================================================================"
 }
 
 
