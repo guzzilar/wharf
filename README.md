@@ -17,14 +17,14 @@ _**Clone**_ or [_**download**_](https://github.com/guzzilar/wadka/archive/master
 Then, to run Wadka, execute the following command right away in your terminal program:
 
 ```bash
-bin/wadka up [platform[:version(optional)]] [app_name(optional)]
+wadka up [platform[:version(optional)]] [app_name(optional)]
 ```
 
 > Note: Default of the `version` parameter is `latest`.
 
 #### Example:
 ```bash
-bin/wadka up woocommerce:latest my-woocommerce
+wadka up woocommerce:latest my-woocommerce
 ```
 
 Wadka will create a new folder `app/my-woocommerce`. Then, deploy all build-related files into a folder you've assigned.
@@ -39,7 +39,7 @@ Once finished, you will be able to edit or make any changes inside `app/my-wooco
 
 #### Versions Supported
 
-- latest (`bin/wadka up woocommerce`)
+- latest (`wadka up woocommerce`)
 
 **Database**  
 DB Host: _`db`_  

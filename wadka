@@ -1,7 +1,7 @@
 #!/bin/bash
 
-WADKA_VERSION="0.2.2-dev"
-WADKA_RELEASE_DATE="Jan 4, 2018"
+WADKA_VERSION="0.2.3-dev"
+WADKA_RELEASE_DATE="Jan 12, 2018"
 WADKA_EXECUTABLE_COMMANDS=("doc" "help" "up" "build" "version")
 SUPPORTED_PLATFORMS=("woocommerce" "magento" "eccube")
 REPOSITORY_ACCOUNT="https://github.com/guzzilar"
