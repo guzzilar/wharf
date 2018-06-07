@@ -3,7 +3,7 @@
 # Wharf informations
 WHARF_VERSION="0.2.4-dev"
 WHARF_RELEASE_DATE="Jun 4, 2018"
-WHARF_EXECUTABLE_COMMANDS=("build" "doc" "help" "--help" "init" "up" "version" "--version")
+WHARF_EXECUTABLE_COMMANDS=("build" "doc" "help" "--help" "config" "up" "version" "--version")
 WHARF_SUPPORTED_PLATFORMS=("woocommerce" "magento" "eccube")
 
 # Dependencies
@@ -14,6 +14,7 @@ REPOSITORY_API="https://api.github.com/repos/guzzilar"
 VERSIONING_LOCATION=".version"
 
 app_name=""
+app_location=""
 build_location=""
 build_platform=""
 build_source=""
@@ -36,11 +37,11 @@ arg_position=0
  #
  # @executable
  ##
- --help () { doc ; }
- help () { doc ; }
+--help () { doc ; }
+help () { doc ; }
 doc () {
 echo -e "
-Wharf Documentation
+WHARF DOCUMENTATION
 ---------------------
 Usage: wharf <command> <platform>[:<version>] [<app_name>]
 
@@ -54,18 +55,19 @@ Available commands:
 \tversion\t\tShow Wharf's current version.
 
 
-SUPPORTED PLATFORMS
+Supported platforms
 ---------------------
 eccube, magento, woocommerce
 
 
-EXAMPLES
+Examples
 ---------------------
-$ Wharf build woocommerce
-$ Wharf up woocommerce:3.1.0
-$ Wharf up woocommerce:3.1.0 mywc
-$ Wharf up magento my-magento
+$ wharf build woocommerce
+$ wharf up woocommerce:3.1.0
+$ wharf up woocommerce:3.1.0 mywc
+$ wharf up magento my-magento
 "
+exit
 }
 
 ###
@@ -81,12 +83,21 @@ Wharf version $WHARF_VERSION (released on $WHARF_RELEASE_DATE)
 }
 
 ###
+ # Config configuration options
+ #
+ # @executable
+ ##
+config() {
+    echo 'test'
+}
+
+###
  # Boot up a container!
  #
  # @executable
  ##
 up() {
-    building
+    bootstrap
 
     $container_location/bin/docky-servant up $build_version $build_location
 }
@@ -97,7 +108,7 @@ up() {
  # @executable
  ##
 build() {
-    building
+    bootstrap
 
     $container_location/bin/docky-servant build $build_version $build_location
 }
@@ -127,7 +138,7 @@ isExecutable () {
 }
 
 ###
- # Check if Wadka supports a build target platform.
+ # Check if Wharf supports a build target platform.
  #
  # @param $1 string  name of a platform you want to check
  ##
@@ -205,6 +216,14 @@ downloadContainer () {
 }
 
 ###
+ # Set the location you wanted to build an app with.
+ ##
+setAppLocation () {
+    app_location="${1#*=}"
+    app_location=${app_location%/}
+}
+
+###
  # Preparation
  ##
 initialize () {
@@ -227,14 +246,21 @@ initialize () {
 ###
  # Create a container
  ##
-building () {
-    echo ".."
-    echo "Wadka: running up \"$build_platform\" version \"$build_version\" container.."
+bootstrap () {
+echo -e "
+.
+..
+Wharf: running up \"$build_platform\" version \"$build_version\" container..
+"
 
-    initialize
+initialize
 
-    echo "Wadka: Booting up the docker!"
-    echo "Wadka: ================================================================================"
+echo -e "
+.
+..
+Wharf: Booting up the docker!
+Wharf: ================================================================================
+"
 }
 
 
@@ -245,13 +271,13 @@ building () {
 # ..
 the_command=$1
 if ! isExecutable $the_command; then
-    echo "."
-    echo ".."
-    echo "Wharf: command not found, cannot execute the command \"$the_command\"."
-    echo ".."
-    echo "."
-    doc
-    exit
+echo -e "
+.
+..
+Wharf: sorry but, command not found. Cannot execute the command \"$the_command\".
+..
+."
+doc
 fi
 
 # Remove "execute command" from arguments.
@@ -265,6 +291,11 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
 
+        --location=*)
+            setAppLocation ${1#*=}
+            shift
+            ;;
+
         *)
             [[ -z $build_platform ]] && {
                 OIFS=$IFS
@@ -272,9 +303,13 @@ while [[ $# -gt 0 ]]; do
                 target=($1)
 
                 if ! isPlatformAvailable ${target[0]}; then
+                    echo ""
+                    echo "."
                     echo ".."
-                    echo "Wharf: error, platform \"$1\" did not match with any platform(s) I supported."
-                    exit
+                    echo "Wharf: sorry but, platform \"$1\" does not match with any platform(s) I supported."
+                    echo ".."
+                    echo "."
+                    doc
                 fi
 
                 build_platform=${target[0]}
@@ -296,5 +331,15 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+[[ -z $build_platform ]] && {
+echo -e "
+.
+..
+Wharf: sorry but, platform is not defined.
+..
+."
+doc
+}
 
 $the_command
